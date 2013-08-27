@@ -12,5 +12,6 @@ noinst_HEADERS += \
 	osdc/Journaler.h \
 	osdc/ObjectCacher.h \
 	osdc/Objecter.h \
-	osdc/Striper.h
+	osdc/Striper.h \
+	osdc/WritebackHandler.h
 
