@@ -61,7 +61,7 @@ admin-tools: monmaptool osdmaptool crushtool ceph-authtool
 base: core-daemons admin-tools \
 	cephfs ceph-syn ceph-conf \
 	rados librados-config \
-	init-ceph mkcephfs ceph-mon-store-converter ceph-post-file
+	init-ceph mkcephfs ceph_mon_store_converter ceph-post-file
 
 
 EXTRALIBS = -luuid
@@ -170,7 +170,7 @@ bin_PROGRAMS += ceph_filestore_dump
 
 ceph_mon_store_converter_SOURCES = mon_store_converter.cc
 ceph_mon_store_converter_LDADD = $(LIBMON) $(LIBOS) $(CEPH_GLOBAL)
-bin_PROGRAMS += ceph-mon-store-converter
+bin_PROGRAMS += ceph_mon_store_converter
 
 ceph_dencoder_SOURCES = \
 	test/encoding/ceph_dencoder.cc \
