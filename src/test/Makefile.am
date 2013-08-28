@@ -24,7 +24,46 @@ ceph_test_rewrite_latency_SOURCES = test/test_rewrite_latency.cc
 ceph_test_rewrite_latency_LDADD = $(LIBCOMMON) $(PTHREAD_LIBS) -lm $(CRYPTO_LIBS) $(EXTRALIBS)
 bin_DEBUGPROGRAMS += ceph_test_rewrite_latency
 
+ceph_test_msgr_SOURCES = test/testmsgr.cc
+ceph_test_msgr_LDADD = $(CEPH_GLOBAL)
+bin_DEBUGPROGRAMS += ceph_test_msgr
 
+ceph_streamtest_SOURCES = test/streamtest.cc
+ceph_streamtest_LDADD = $(LIBOS) $(CEPH_GLOBAL)
+bin_DEBUGPROGRAMS += ceph_streamtest
+
+ceph_test_trans_SOURCES = test/test_trans.cc
+ceph_test_trans_LDADD = $(LIBOS) $(CEPH_GLOBAL)
+bin_DEBUGPROGRAMS += ceph_test_trans
+
+ceph_test_crypto_SOURCES = test/testcrypto.cc
+ceph_test_crypto_LDADD = $(CEPH_GLOBAL)
+bin_DEBUGPROGRAMS += ceph_test_crypto
+
+ceph_test_keys_SOURCES = test/testkeys.cc
+ceph_test_keys_LDADD = $(LIBMON) $(CEPH_GLOBAL) 
+bin_DEBUGPROGRAMS += ceph_test_keys
+
+
+## Dencoder test
+
+ceph_dencoder_SOURCES = \
+	test/encoding/ceph_dencoder.cc \
+	$(DENCODER_SOURCES)
+ceph_dencoder_LDADD = \
+	$(LIBOSD) $(LIBMDS) $(LIBOSDC) $(LIBOS) $(LIBMON) \
+	$(DENCODER_DEPS) $(CEPH_GLOBAL)
+
+# These should always use explicit _CFLAGS/_CXXFLAGS so avoid basename conflicts
+ceph_dencoder_CFLAGS = ${AM_CFLAGS}
+ceph_dencoder_CXXFLAGS = ${AM_CXXFLAGS}
+
+if COMPILER_HAS_VTA
+ceph_dencoder_CFLAGS += -fno-var-tracking-assignments
+ceph_dencoder_CXXFLAGS += -fno-var-tracking-assignments
+endif
+
+bin_PROGRAMS += ceph-dencoder
 
 
 ## Build tests
@@ -35,9 +74,10 @@ test_build_libcommon_SOURCES = \
 	test/buildtest_skeleton.cc \
 	$(libcommon_la_SOURCES)
 test_build_libcommon_LDADD = \
-	$(LIBCRUSH) $(LIBAUTH) $(LIBLOG) $(LIBJSON_SPIRIT) \
-	$(PTHREAD_LIBS) -lm $(CRYPTO_LIBS) $(EXTRALIBS)
+	$(LIBCOMMON_DEPS) \
+	$(PTHREAD_LIBS) $(CRYPTO_LIBS) $(EXTRALIBS)
 test_build_libcommon_LDFLAGS = -static-libtool-libs
+test_build_libcommon_CFLAGS = $(AM_CFLAGS)
 test_build_libcommon_CXXFLAGS = $(AM_CXXFLAGS)
 bin_DEBUGPROGRAMS += test_build_libcommon
 
@@ -45,9 +85,10 @@ test_build_librados_SOURCES = \
 	test/buildtest_skeleton.cc \
 	$(librados_la_SOURCES)
 test_build_librados_LDADD = \
-	libcls_lock_client.la $(LIBOSDC) \
-	$(PTHREAD_LIBS) -lm $(CRYPTO_LIBS) $(EXTRALIBS)
+	$(LIBRADOS_DEPS) \
+	$(PTHREAD_LIBS) $(CRYPTO_LIBS) $(EXTRALIBS)
 test_build_librados_LDFLAGS = -static-libtool-libs
+test_build_librados_CFLAGS = $(AM_CFLAGS)
 test_build_librados_CXXFLAGS = $(AM_CXXFLAGS)
 bin_DEBUGPROGRAMS += test_build_librados
 
@@ -55,27 +96,35 @@ test_build_librgw_SOURCES = \
 	test/buildtest_skeleton.cc \
 	$(librgw_la_SOURCES)
 test_build_librgw_LDADD = \
-	$(LIBRADOS) -lexpat \
-	$(PTHREAD_LIBS) -lm $(CRYPTO_LIBS) $(EXTRALIBS) \
+	$(LIBRGW_DEPS) \
+	$(PTHREAD_LIBS) $(CRYPTO_LIBS) $(EXTRALIBS) \
 	$(CEPH_GLOBAL)
 test_build_librgw_LDFLAGS = -static-libtool-libs
+test_build_librgw_CFLAGS = $(AM_CFLAGS)
 test_build_librgw_CXXFLAGS = $(AM_CXXFLAGS)
 bin_DEBUGPROGRAMS += test_build_librgw
 
+# I dont get this one... testing the osdc build but link in libcephfs?
 test_build_libcephfs_SOURCES = \
 	test/buildtest_skeleton.cc \
 	$(libosdc_la_SOURCES)
 test_build_libcephfs_LDADD = \
 	$(LIBCEPHFS) -lexpat \
-	$(PTHREAD_LIBS) -lm $(CRYPTO_LIBS) $(EXTRALIBS)
+	$(PTHREAD_LIBS) $(CRYPTO_LIBS) $(EXTRALIBS)
 test_build_libcephfs_LDFLAGS = -static-libtool-libs
+test_build_libcephfs_CFLAGS = $(AM_CFLAGS)
 test_build_libcephfs_CXXFLAGS = $(AM_CXXFLAGS)
 bin_DEBUGPROGRAMS += test_build_libcephfs
 
 if WITH_HADOOPCLIENT
-test_build_libhadoopcephfs_SOURCES = test/buildtest_skeleton.cc $(libhadoopcephfs_la_SOURCES)
-test_build_libhadoopcephfs_LDADD = $(LIBCEPHFS) -lexpat $(PTHREAD_LIBS) -lm $(CRYPTO_LIBS) $(EXTRALIBS)
+test_build_libhadoopcephfs_SOURCES = \
+	test/buildtest_skeleton.cc \
+	$(libhadoopcephfs_la_SOURCES)
+test_build_libhadoopcephfs_LDADD = \
+	$(LIBCEPHFS) -lexpat \
+	$(PTHREAD_LIBS) $(CRYPTO_LIBS) $(EXTRALIBS)
 test_build_libhadoopcephfs_LDFLAGS = -static-libtool-libs
+test_build_libhadoopcephfs_CFLAGS = $(AM_CFLAGS)
 test_build_libhadoopcephfs_CXXFLAGS = $(AM_CXXFLAGS)
 bin_DEBUGPROGRAMS += test_build_libhadoopcephfs
 endif # WITH_HADOOPCLIENT
@@ -114,7 +163,7 @@ ceph_smalliobenchrbd_SOURCES = \
 	test/bench/rbd_backend.cc \
 	test/bench/detailed_stat_collector.cc \
 	test/bench/bencher.cc
-ceph_smalliobenchrbd_LDADD = $(LIBRBD) -lboost_program_options $(CEPH_GLOBAL)
+ceph_smalliobenchrbd_LDADD = $(LIBRBD) $(LIBRADOS) -lboost_program_options $(CEPH_GLOBAL)
 bin_DEBUGPROGRAMS += ceph_smalliobenchrbd
 
 ceph_tpbench_SOURCES = \
@@ -269,9 +318,7 @@ unittest_osd_types_CXXFLAGS = $(UNITTEST_CXXFLAGS)
 unittest_osd_types_LDADD = $(UNITTEST_LDADD) $(CEPH_GLOBAL) 
 check_PROGRAMS += unittest_osd_types
 
-unittest_pglog_SOURCES = \
-	test/osd/TestPGLog.cc \
-	perfglue/disabled_heap_profiler.cc
+unittest_pglog_SOURCES = test/osd/TestPGLog.cc
 unittest_pglog_CXXFLAGS = $(UNITTEST_CXXFLAGS)
 unittest_pglog_LDADD = $(LIBOSD) $(LIBOS) $(UNITTEST_LDADD) $(CEPH_GLOBAL)
 check_PROGRAMS += unittest_pglog
@@ -478,12 +525,12 @@ endif # WITH_RADOSGW
 ceph_test_librbd_SOURCES = \
 	test/librbd/test_librbd.cc \
 	test/librados/test.cc
-ceph_test_librbd_LDADD = $(LIBRBD) $(UNITTEST_LDADD)
+ceph_test_librbd_LDADD = $(LIBRBD) $(LIBRADOS) $(UNITTEST_LDADD)
 ceph_test_librbd_CXXFLAGS = $(UNITTEST_CXXFLAGS)
 bin_DEBUGPROGRAMS += ceph_test_librbd
 
 ceph_test_librbd_fsx_SOURCES = test/librbd/fsx.c
-ceph_test_librbd_fsx_LDADD = $(LIBRBD) -lm
+ceph_test_librbd_fsx_LDADD = $(LIBRBD) $(LIBRADOS) -lm
 ceph_test_librbd_fsx_CFLAGS = ${AM_CFLAGS} -Wno-format
 bin_DEBUGPROGRAMS += ceph_test_librbd_fsx
 

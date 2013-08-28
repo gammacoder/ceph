@@ -12,8 +12,9 @@
  *
  */
 
+#include "include/int_types.h"
+
 #include <errno.h>
-#include <inttypes.h>
 
 #include "common/Cond.h"
 #include "common/dout.h"

@@ -15,7 +15,7 @@
 #include <linux/types.h>
 #elif defined(__FreeBSD_)
 #include <sys/types.h>
-#include "include/inttypes.h"
+#include "include/int_types.h"
 #endif
 
 struct fiemap_extent {

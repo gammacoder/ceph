@@ -10,7 +10,7 @@ extern "C" {
 #include <linux/types.h>
 #elif defined(__FreeBSD__)
 #include <sys/types.h>
-#include "include/inttypes.h"
+#include "include/int_types.h"
 #endif
 #include <string.h>
 #include "rados_types.h"

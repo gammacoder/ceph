@@ -9,6 +9,7 @@ libosd_la_SOURCES = \
 	osd/ClassHandler.cc \
 	osd/OpRequest.cc \
 	osd/SnapMapper.cc \
+	osd/osd_types.cc \
 	objclass/class_api.cc
 noinst_LTLIBRARIES += libosd.la
 
