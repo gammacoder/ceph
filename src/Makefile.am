@@ -252,7 +252,7 @@ endif # WITH_SYSTEM_LIBS3
 endif # WITH_REST_BENCH
 
 rbd_SOURCES = rbd.cc 
-rbd_LDADD = $(LIBRBD) $(CEPH_GLOBAL)
+rbd_LDADD = $(LIBRBD) $(LIBRADOS) $(CEPH_GLOBAL)
 if LINUX
 bin_PROGRAMS += rbd
 endif #LINUX
@@ -271,7 +271,7 @@ endif # WITH_TCMALLOC
 bin_PROGRAMS += ceph-fuse
 
 rbd_fuse_SOURCES = rbd_fuse/rbd-fuse.c
-rbd_fuse_LDADD = -lfuse $(LIBRBD) $(CEPH_GLOBAL)
+rbd_fuse_LDADD = -lfuse $(LIBRBD) $(LIBRADOS) $(CEPH_GLOBAL)
 bin_PROGRAMS += rbd-fuse
 endif # WITH_FUSE
 
