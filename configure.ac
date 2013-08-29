@@ -89,6 +89,9 @@ AC_DEFUN([AC_CHECK_CC_FLAG],
 AC_CHECK_CC_FLAG([-Wtype-limits], [WARN_TYPE_LIMITS])
 AC_CHECK_CC_FLAG([-Wignored-qualifiers], [WARN_IGNORED_QUALIFIERS])
 
+AX_CHECK_COMPILE_FLAG([-fvar-tracking-assignments], [HAS_VTA_SUPPORT=1], [HAS_VTA_SUPPORT=0])
+AM_CONDITIONAL(COMPILER_HAS_VTA, [test "$HAS_VTA_SUPPORT" = 1])
+
 # Checks for libraries.
 ACX_PTHREAD
 AC_CHECK_LIB([uuid], [uuid_parse], [true], AC_MSG_FAILURE([libuuid not found]))

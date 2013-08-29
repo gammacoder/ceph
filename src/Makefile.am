@@ -187,7 +187,11 @@ ceph_dencoder_LDADD = \
 	libcls_replica_log_client.a \
 	libcls_refcount_client.la \
 	$(CEPH_GLOBAL)
+
+if COMPILER_HAS_VTA
 ceph_dencoder_CXXFLAGS = ${AM_CXXFLAGS} -fno-var-tracking-assignments
+endif
+
 bin_PROGRAMS += ceph-dencoder
 
 # User tools
