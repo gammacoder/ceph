@@ -99,6 +99,11 @@ LIBCOMMON_DEPS =
 LIBRADOS_DEPS =
 LIBRGW_DEPS =
 
+# This is used by the dencoder test
+DENCODER_SOURCES =
+DENCODER_DEPS =
+
+
 ##################################
 ## automake environment
 

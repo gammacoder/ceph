@@ -85,6 +85,20 @@ ceph_rgw_jsonparser_SOURCES = \
 ceph_rgw_jsonparser_LDADD = $(LIBRGW) $(LIBRGW_DEPS) $(CEPH_GLOBAL)
 bin_DEBUGPROGRAMS += ceph_rgw_jsonparser
 
+# inject rgw stuff in the decoder testcase
+DENCODER_SOURCES += \
+	rgw/rgw_dencoder.cc \
+	rgw/rgw_acl.cc \
+	rgw/rgw_common.cc \
+	rgw/rgw_env.cc \
+	rgw/rgw_json_enc.cc
+DENCODER_DEPS +=  \
+	libcls_lock_client.la \
+	libcls_rgw_client.la \
+	libcls_replica_log_client.a \
+	libcls_refcount_client.la
+
+
 endif # WITH_RADOSGW
 
 

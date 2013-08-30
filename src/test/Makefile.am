@@ -45,6 +45,20 @@ ceph_test_keys_LDADD = $(LIBMON) $(CEPH_GLOBAL)
 bin_DEBUGPROGRAMS += ceph_test_keys
 
 
+## Dencoder test
+
+ceph_dencoder_SOURCES = \
+	test/encoding/ceph_dencoder.cc \
+	$(DENCODER_SOURCES)
+ceph_dencoder_LDADD = \
+	$(LIBOSD) $(LIBMDS) $(LIBOSDC) $(LIBOS) $(LIBMON) \
+	$(DENCODER_DEPS) $(CEPH_GLOBAL)
+
+if COMPILER_HAS_VTA
+ceph_dencoder_CXXFLAGS = ${AM_CXXFLAGS} -fno-var-tracking-assignments
+endif
+
+bin_PROGRAMS += ceph-dencoder
 
 
 ## Build tests

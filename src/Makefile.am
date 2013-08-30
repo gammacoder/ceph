@@ -51,27 +51,6 @@ bin_PROGRAMS += ceph-mds
 
 # admin tools
 
-ceph_dencoder_SOURCES = \
-	test/encoding/ceph_dencoder.cc \
-	rgw/rgw_dencoder.cc \
-	rgw/rgw_acl.cc \
-	rgw/rgw_common.cc \
-	rgw/rgw_env.cc \
-	rgw/rgw_json_enc.cc
-ceph_dencoder_LDADD = \
-	$(LIBOSD) $(LIBMDS) $(LIBOSDC) $(LIBOS) $(LIBMON) \
-	libcls_lock_client.la \
-	libcls_rgw_client.la \
-	libcls_replica_log_client.a \
-	libcls_refcount_client.la \
-	$(CEPH_GLOBAL)
-
-if COMPILER_HAS_VTA
-ceph_dencoder_CXXFLAGS = ${AM_CXXFLAGS} -fno-var-tracking-assignments
-endif
-
-bin_PROGRAMS += ceph-dencoder
-
 
 # user tools
 
