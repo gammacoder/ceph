@@ -1,12 +1,14 @@
 #ifndef CEPH_INTTYPES_H
 #define CEPH_INTTYPES_H
 
+#if defined(__linux__)
+#include <linux/types.h>
+#endif
+
 #include <inttypes.h>
 #include <stdint.h>
 
-#if defined(__linux__)
-#include <linux/types.h>
-#elif defined(__FreeBSD__)
+#if defined(__FreeBSD__)
 #include <sys/types.h>
 
 typedef int8_t __s8;

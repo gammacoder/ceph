@@ -76,7 +76,7 @@ libcommon_la_SOURCES += \
 	mon/MonCap.cc \
 	mon/MonClient.cc \
 	mon/MonMap.cc \
-	os/hobject.cc \\
+	os/hobject.cc \
 	osd/OSDMap.cc \
 	osd/osd_types.cc \
 	mds/MDSMap.cc \
