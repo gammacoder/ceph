@@ -12,7 +12,8 @@
  * 
  */
 
-#include <inttypes.h>
+#include "include/int_types.h"
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -29,10 +30,6 @@
 
 #include <iostream>
 #include <map>
-
-#if defined(__FreeBSD__)
-#include "include/inttypes.h"
-#endif
 
 #include "include/compat.h"
 #include "include/linux_fiemap.h"

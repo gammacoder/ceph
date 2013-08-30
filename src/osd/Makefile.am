@@ -5,10 +5,12 @@ libosd_la_SOURCES = \
 	osd/Ager.cc \
 	osd/OSD.cc \
 	osd/OSDCap.cc \
+	osd/OSDMap.cc \
 	osd/Watch.cc \
 	osd/ClassHandler.cc \
 	osd/OpRequest.cc \
 	osd/SnapMapper.cc \
+	osd/osd_types.cc \
 	objclass/class_api.cc
 noinst_LTLIBRARIES += libosd.la
 

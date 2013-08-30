@@ -21,4 +21,10 @@ noinst_HEADERS += \
 	crush/sample.txt \
 	crush/types.h
 
+#crush_includedir = $(includedir)/crush
+#crush_include_DATA = \
+#	$(srcdir)/crush/hash.h \
+#	$(srcdir)/crush/crush.h \
+#	$(srcdir)/crush/mapper.h \
+#	$(srcdir)/crush/types.h
 

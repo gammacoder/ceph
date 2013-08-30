@@ -4,6 +4,7 @@ libmds_la_SOURCES = \
 	mds/Dumper.cc \
 	mds/Resetter.cc \
 	mds/MDS.cc \
+	mds/MDSMap.cc \
 	mds/flock.cc \
 	mds/locks.c \
 	mds/journal.cc \
@@ -27,7 +28,9 @@ libmds_la_SOURCES = \
 	mds/SnapServer.cc \
 	mds/snap.cc \
 	mds/SessionMap.cc \
-	mds/MDLog.cc
+	mds/MDLog.cc \
+	mds/inode_backtrace.cc \
+	mds/mdstypes.cc
 libmds_la_LIBADD = $(LIBOSDC)
 noinst_LTLIBRARIES += libmds.la
 
@@ -67,6 +70,7 @@ noinst_HEADERS += \
 	mds/SnapClient.h \
 	mds/SnapRealm.h \
 	mds/SnapServer.h \
+	mds/inode_backtrace.h \
 	mds/mds_table_types.h \
 	mds/mdstypes.h \
 	mds/snap.h

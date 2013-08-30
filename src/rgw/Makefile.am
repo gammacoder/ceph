@@ -34,8 +34,7 @@ librgw_la_SOURCES =  \
 librgw_la_CXXFLAGS = -Woverloaded-virtual ${AM_CXXFLAGS}
 noinst_LTLIBRARIES += librgw.la
 
-librgw_ldadd = \
-	librgw.la \
+LIBRGW_DEPS += \
 	$(LIBRADOS) \
 	libcls_rgw_client.la \
 	libcls_log_client.a \
@@ -46,7 +45,8 @@ librgw_ldadd = \
 	libcls_version_client.a \
 	-lcurl \
 	-lexpat \
-	-lm
+	-lm \
+	-lfcgi
 
 radosgw_SOURCES = \
 	rgw/rgw_resolve.cc \
@@ -66,15 +66,15 @@ radosgw_SOURCES = \
 	rgw/rgw_swift.cc \
 	rgw/rgw_swift_auth.cc \
 	rgw/rgw_main.cc
-radosgw_LDADD = -lfcgi -lresolv $(librgw_ldadd) $(CEPH_GLOBAL)
+radosgw_LDADD = $(LIBRGW) $(LIBRGW_DEPS) -lresolv $(CEPH_GLOBAL)
 bin_PROGRAMS += radosgw
 
 radosgw_admin_SOURCES = rgw/rgw_admin.cc
-radosgw_admin_LDADD = $(librgw_ldadd) $(CEPH_GLOBAL)
+radosgw_admin_LDADD = $(LIBRGW) $(LIBRGW_DEPS) $(CEPH_GLOBAL)
 bin_PROGRAMS += radosgw-admin
 
 ceph_rgw_multiparser_SOURCES = rgw/rgw_multiparser.cc
-ceph_rgw_multiparser_LDADD = $(librgw_ldadd) $(CEPH_GLOBAL)
+ceph_rgw_multiparser_LDADD = $(LIBRGW) $(LIBRGW_DEPS) $(CEPH_GLOBAL)
 bin_DEBUGPROGRAMS += ceph_rgw_multiparser
 
 ceph_rgw_jsonparser_SOURCES = \
@@ -82,7 +82,7 @@ ceph_rgw_jsonparser_SOURCES = \
 	rgw/rgw_common.cc \
 	rgw/rgw_env.cc \
 	rgw/rgw_json_enc.cc
-ceph_rgw_jsonparser_LDADD = $(librgw_ldadd) $(CEPH_GLOBAL)
+ceph_rgw_jsonparser_LDADD = $(LIBRGW) $(LIBRGW_DEPS) $(CEPH_GLOBAL)
 bin_DEBUGPROGRAMS += ceph_rgw_jsonparser
 
 endif # WITH_RADOSGW

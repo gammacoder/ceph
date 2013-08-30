@@ -9,6 +9,8 @@
  *
  */
 
+#include "include/int_types.h"
+
 #include "mon/MonClient.h"
 #include "mon/MonMap.h"
 #include "common/config.h"
@@ -33,7 +35,6 @@
 #include <boost/scoped_ptr.hpp>
 #include <dirent.h>
 #include <errno.h>
-#include <inttypes.h>
 #include <iostream>
 #include <memory>
 #include <sstream>

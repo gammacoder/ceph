@@ -1,0 +1,176 @@
+libcommon_la_SOURCES = \
+	ceph_ver.c \
+	common/DecayCounter.cc \
+	common/LogClient.cc \
+	common/LogEntry.cc \
+	common/PrebufferedStreambuf.cc \
+	common/BackTrace.cc \
+	common/perf_counters.cc \
+	common/Mutex.cc \
+	common/OutputDataSocket.cc \
+	common/admin_socket.cc \
+	common/admin_socket_client.cc \
+	common/cmdparse.cc \
+	common/escape.c \
+	common/Clock.cc \
+	common/Throttle.cc \
+	common/Timer.cc \
+	common/Finisher.cc \
+	common/environment.cc\
+	common/sctp_crc32.c\
+	common/crc32c-intel.c\
+	common/assert.cc \
+	common/run_cmd.cc \
+	common/WorkQueue.cc \
+	common/ConfUtils.cc \
+	common/MemoryModel.cc \
+	common/armor.c \
+	common/fd.cc \
+	common/xattr.c \
+	common/safe_io.c \
+	common/snap_types.cc \
+	common/str_list.cc \
+	common/errno.cc \
+	common/RefCountedObj.cc \
+	common/blkdev.cc \
+	common/common_init.cc \
+	common/pipe.c \
+	common/ceph_argparse.cc \
+	common/ceph_context.cc \
+	common/buffer.cc \
+	common/code_environment.cc \
+	common/dout.cc \
+	common/signal.cc \
+	common/simple_spin.cc \
+	common/Thread.cc \
+	common/Formatter.cc \
+	common/HeartbeatMap.cc \
+	common/config.cc \
+	common/utf8.c \
+	common/mime.c \
+	common/strtol.cc \
+	common/page.cc \
+	common/lockdep.cc \
+	common/version.cc \
+	common/hex.cc \
+	common/entity_name.cc \
+	common/ceph_crypto.cc \
+	common/ceph_crypto_cms.cc \
+	common/ceph_json.cc \
+	common/ipaddr.cc \
+	common/pick_address.cc \
+	common/util.cc \
+	common/TextTable.cc \
+	common/secret.c 
+
+# these should probably be moved to common/
+libcommon_la_SOURCES += \
+	include/ceph_fs.cc \
+	include/ceph_hash.cc \
+	include/ceph_strings.cc \
+	include/ceph_frag.cc \
+	include/addr_parsing.c
+
+# these should go out of libcommon
+libcommon_la_SOURCES += \
+	mon/MonCap.cc \
+	mon/MonClient.cc \
+	mon/MonMap.cc \
+	os/hobject.cc \\
+	osd/OSDMap.cc \
+	osd/osd_types.cc \
+	mds/MDSMap.cc \
+	mds/inode_backtrace.cc \
+	mds/mdstypes.cc 
+
+# important; libmsg before libauth!
+LIBCOMMON_DEPS += $(LIBMSG) $(LIBAUTH) $(LIBCRUSH) $(LIBJSON_SPIRIT) $(LIBLOG) -lkeyutils
+
+if LINUX
+LIBCOMMON_DEPS += -lrt
+endif # LINUX
+
+libcommon_la_LIBADD = $(LIBCOMMON_DEPS)
+
+noinst_HEADERS += \
+	common/BackTrace.h \
+	common/RefCountedObj.h \
+	common/HeartbeatMap.h \
+	common/LogClient.h \
+	common/LogEntry.h \
+	common/Preforker.h \
+	common/WorkQueue.h \
+	common/PrioritizedQueue.h \
+	common/ceph_argparse.h \
+	common/ceph_context.h \
+	common/xattr.h \
+	common/blkdev.h \
+	common/compiler_extensions.h \
+	common/debug.h \
+	common/dout.h \
+	common/escape.h \
+	common/fd.h \
+	common/version.h \
+	common/hex.h \
+	common/entity_name.h \
+	common/errno.h \
+	common/environment.h \
+	common/likely.h \
+	common/lockdep.h \
+	common/obj_bencher.h \
+	common/snap_types.h \
+	common/Clock.h \
+	common/Cond.h \
+	common/ConfUtils.h \
+	common/DecayCounter.h \
+	common/Finisher.h \
+	common/Formatter.h \
+	common/perf_counters.h \
+	common/OutputDataSocket.h \
+	common/admin_socket.h \
+	common/admin_socket_client.h \
+	common/shared_cache.hpp \
+	common/tracked_int_ptr.hpp \
+	common/simple_cache.hpp \
+	common/sharedptr_registry.hpp \
+	common/map_cacher.hpp \
+	common/MemoryModel.h \
+	common/Mutex.h \
+	common/PrebufferedStreambuf.h \
+	common/RWLock.h \
+	common/Semaphore.h \
+	common/SimpleRNG.h \
+	common/TextTable.h \
+	common/Thread.h \
+	common/Throttle.h \
+	common/Timer.h \
+	common/TrackedOp.h \
+	common/arch.h \
+	common/armor.h \
+	common/common_init.h \
+	common/pipe.h \
+	common/code_environment.h \
+	common/signal.h \
+	common/simple_spin.h \
+	common/run_cmd.h \
+	common/safe_io.h \
+	common/config.h \
+	common/config_obs.h \
+	common/config_opts.h \
+	common/ceph_crypto.h \
+	common/ceph_crypto_cms.h \
+	common/ceph_json.h \
+	common/lru_map.h \
+	common/utf8.h \
+	common/mime.h \
+	common/pick_address.h \
+	common/secret.h \
+	common/strtol.h \
+	common/static_assert.h \
+	common/AsyncReserver.h \
+	common/sync_filesystem.h \
+	common/cmdparse.h 
+
+noinst_LTLIBRARIES += libcommon.la
+
+

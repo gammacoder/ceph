@@ -38,3 +38,7 @@ libclient_fuse_la_LIBADD = libclient.la -lfuse
 noinst_LTLIBRARIES += libclient_fuse.la
 noinst_HEADERS += client/fuse_ll.h
 endif
+
+ceph_test_ioctls_SOURCES = client/test_ioctls.c
+bin_DEBUGPROGRAMS += ceph_test_ioctls
+

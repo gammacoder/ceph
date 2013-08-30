@@ -17,7 +17,7 @@
 
 #include <tr1/memory>
 
-#include "inttypes.h"
+#include "int_types.h"
 #include "byteorder.h"
 #include "buffer.h"
 #include "assert.h"
