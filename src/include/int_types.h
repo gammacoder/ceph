@@ -31,7 +31,7 @@
  * an inttypes.h that doesn't define all the PRI[doxu]64 macros.
  */
 #if !defined(PRIu64)
-#  if defined(HAVE_INTTYPES) || defined(HAVE_GLIB)
+#  if defined(HAVE_INTTYPES_H) || defined(HAVE_GLIB)
 /* If we have inttypes or glib, assume we have 64-bit long long int */
 #    define PRIu64 "llu"
 #    define PRIi64 "lli"
