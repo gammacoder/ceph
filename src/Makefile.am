@@ -193,7 +193,9 @@ EXTRA_DIST += \
 	ceph-create-keys \
 	ceph-rest-api \
 	mount.fuse.ceph \
-	rbdmap
+	rbdmap \
+	unittest_bufferlist.sh \
+	yasm-wrapper
 
 EXTRA_DIST += \
 	libs3/COPYING \

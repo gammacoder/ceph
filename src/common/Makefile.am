@@ -95,6 +95,10 @@ endif
 LIBCOMMON_DEPS += libcommon_crc.la
 noinst_LTLIBRARIES += libcommon_crc.la
 
+noinst_HEADERS += \
+	common/sctp_crc32.h \
+	common/crc32c_intel_baseline.h \
+	common/crc32c_intel_fast.h
 
 
 # important; libmsg before libauth!
@@ -186,7 +190,7 @@ noinst_HEADERS += \
 	common/static_assert.h \
 	common/AsyncReserver.h \
 	common/sync_filesystem.h \
-	common/cmdparse.h 
+	common/cmdparse.h
 
 noinst_LTLIBRARIES += libcommon.la
 
