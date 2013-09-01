@@ -1,5 +1,6 @@
-#include <inttypes.h>
 #include "acconfig.h"
+
+#include "include/int_types.h"
 
 extern unsigned int crc32_iscsi_00(unsigned char const *buffer, int len, unsigned int crc);
 

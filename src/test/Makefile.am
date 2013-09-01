@@ -51,7 +51,7 @@ ceph_dencoder_SOURCES = \
 	test/encoding/ceph_dencoder.cc \
 	$(DENCODER_SOURCES)
 ceph_dencoder_LDADD = \
-	$(LIBOSD) $(LIBMDS) $(LIBOSDC) $(LIBOS) $(LIBMON) \
+	$(LIBOSD) $(LIBMDS) $(LIBMON) \
 	$(DENCODER_DEPS) $(CEPH_GLOBAL)
 
 # These should always use explicit _CFLAGS/_CXXFLAGS so avoid basename conflicts
@@ -320,7 +320,7 @@ check_PROGRAMS += unittest_osd_types
 
 unittest_pglog_SOURCES = test/osd/TestPGLog.cc
 unittest_pglog_CXXFLAGS = $(UNITTEST_CXXFLAGS)
-unittest_pglog_LDADD = $(LIBOSD) $(LIBOS) $(UNITTEST_LDADD) $(CEPH_GLOBAL)
+unittest_pglog_LDADD = $(LIBOSD) $(UNITTEST_LDADD) $(CEPH_GLOBAL)
 check_PROGRAMS += unittest_pglog
 
 if LINUX
@@ -743,7 +743,7 @@ ceph_test_objectcacher_stress_LDADD = $(LIBOSDC) $(CEPH_GLOBAL)
 bin_DEBUGPROGRAMS += ceph_test_objectcacher_stress
 
 ceph_test_snap_mapper_SOURCES = test/test_snap_mapper.cc
-ceph_test_snap_mapper_LDADD = $(LIBOSD) $(LIBOS) $(UNITTEST_LDADD) $(CEPH_GLOBAL)
+ceph_test_snap_mapper_LDADD = $(LIBOSD) $(UNITTEST_LDADD) $(CEPH_GLOBAL)
 ceph_test_snap_mapper_CXXFLAGS = $(UNITTEST_CXXFLAGS)
 bin_DEBUGPROGRAMS += ceph_test_snap_mapper
 

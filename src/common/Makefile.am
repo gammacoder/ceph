@@ -17,8 +17,6 @@ libcommon_la_SOURCES = \
 	common/Timer.cc \
 	common/Finisher.cc \
 	common/environment.cc\
-	common/sctp_crc32.c\
-	common/crc32c-intel.c\
 	common/assert.cc \
 	common/run_cmd.cc \
 	common/WorkQueue.cc \
@@ -83,8 +81,27 @@ libcommon_la_SOURCES += \
 	mds/inode_backtrace.cc \
 	mds/mdstypes.cc 
 
+# inject crc in common
+libcommon_crc_la_SOURCES = \
+	common/sctp_crc32.c \
+	common/crc32c.cc \
+	common/crc32c_intel_baseline.c \
+	common/crc32c_intel_fast.c
+
+if WITH_GOOD_YASM_ELF64
+libcommon_crc_la_SOURCES += common/crc32c_intel_fast_asm.S
+libcommon_crc_la_LIBTOOLFLAGS = --tag=CC
+endif
+LIBCOMMON_DEPS += libcommon_crc.la
+noinst_LTLIBRARIES += libcommon_crc.la
+
+
+
 # important; libmsg before libauth!
-LIBCOMMON_DEPS += $(LIBMSG) $(LIBAUTH) $(LIBCRUSH) $(LIBJSON_SPIRIT) $(LIBLOG) -lkeyutils
+LIBCOMMON_DEPS += \
+	$(LIBMSG) $(LIBAUTH) \
+	$(LIBCRUSH) $(LIBJSON_SPIRIT) $(LIBLOG) $(LIBARCH) \
+	-lkeyutils
 
 if LINUX
 LIBCOMMON_DEPS += -lrt

@@ -87,6 +87,9 @@ AM_CFLAGS += -fprofile-arcs -ftest-coverage
 AM_CXXFLAGS += -fprofile-arcs -ftest-coverage -O0
 endif
 
+CCAS = ${srcdir}/yasm-wrapper
+AM_CCASFLAGS = -f elf64
+
 
 #####################
 ## library definitions and dependencies
@@ -106,6 +109,7 @@ endif # PROFILER
 
 LIBGLOBAL = libglobal.la
 LIBCOMMON = libcommon.la
+LIBARCH = libarch.la
 LIBPERFGLUE = libperfglue.la
 LIBAUTH = libauth.la
 LIBMSG = libmsg.la
@@ -139,6 +143,9 @@ endif # WITH_TCMALLOC
 if ENABLE_COVERAGE
 EXTRALIBS += -lgcov
 endif # ENABLE_COVERAGE
+
+# Libosd always needs osdc and os
+LIBOSD += $(LIBOSDC) $(LIBOS)
 
 # These have references to syms like ceph_using_tcmalloc(), glue libperfglue to them
 LIBMON += $(LIBPERFGLUE)

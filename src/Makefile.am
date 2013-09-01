@@ -6,6 +6,7 @@ DIST_SUBDIRS += gtest ocf libs3 java
 
 # subdirs
 
+include arch/Makefile.am
 include auth/Makefile.am
 include crush/Makefile.am
 include mon/Makefile.am
@@ -38,7 +39,7 @@ ceph_mon_LDADD = $(LIBMON) $(LIBOS) $(CEPH_GLOBAL)
 bin_PROGRAMS += ceph-mon
 
 ceph_osd_SOURCES = ceph_osd.cc
-ceph_osd_LDADD = $(LIBOSD) $(LIBOS) $(CEPH_GLOBAL)
+ceph_osd_LDADD = $(LIBOSD) $(CEPH_GLOBAL)
 if LINUX
 ceph_osd_LDADD += -ldl
 endif # LINUX

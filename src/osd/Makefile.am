@@ -11,6 +11,7 @@ libosd_la_SOURCES = \
 	osd/SnapMapper.cc \
 	osd/osd_types.cc \
 	objclass/class_api.cc
+libosd_la_LIBADD = $(LIBOSDC) $(LIBOS)
 noinst_LTLIBRARIES += libosd.la
 
 noinst_HEADERS += \
