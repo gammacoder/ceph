@@ -59,22 +59,19 @@ libcommon_la_SOURCES = \
 	common/pick_address.cc \
 	common/util.cc \
 	common/TextTable.cc \
-	common/secret.c 
-
-# these should probably be moved to common/
-libcommon_la_SOURCES += \
-	include/ceph_fs.cc \
-	include/ceph_hash.cc \
-	include/ceph_strings.cc \
-	include/ceph_frag.cc \
-	include/addr_parsing.c
+	common/secret.c \
+	common/ceph_fs.cc \
+	common/ceph_hash.cc \
+	common/ceph_strings.cc \
+	common/ceph_frag.cc \
+	common/addr_parsing.c \
+	common/hobject.cc
 
 # these should go out of libcommon
 libcommon_la_SOURCES += \
 	mon/MonCap.cc \
 	mon/MonClient.cc \
 	mon/MonMap.cc \
-	os/hobject.cc \
 	osd/OSDMap.cc \
 	osd/osd_types.cc \
 	mds/MDSMap.cc \
@@ -190,7 +187,8 @@ noinst_HEADERS += \
 	common/static_assert.h \
 	common/AsyncReserver.h \
 	common/sync_filesystem.h \
-	common/cmdparse.h
+	common/cmdparse.h \
+	common/hobject.h
 
 noinst_LTLIBRARIES += libcommon.la
 

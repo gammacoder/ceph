@@ -2,7 +2,7 @@
 // vim: ts=8 sw=2 smarttab
 
 #include "include/types.h"
-#include "hobject.h"
+#include "common/hobject.h"
 #include "common/Formatter.h"
 
 static void append_escaped(const string &in, string *out)

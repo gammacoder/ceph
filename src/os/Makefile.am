@@ -13,13 +13,12 @@ libos_la_SOURCES = \
 	os/WBThrottle.cc \
 	os/BtrfsFileStoreBackend.cc \
 	os/GenericFileStoreBackend.cc \
-	os/ZFSFileStoreBackend.cc 
+	os/ZFSFileStoreBackend.cc
 noinst_LTLIBRARIES += libos.la
 
 noinst_HEADERS += \
 	os/btrfs_ioctl.h \
 	os/chain_xattr.h \
-	os/hobject.h \
 	os/CollectionIndex.h \
 	os/FileJournal.h \
 	os/FileStore.h \
