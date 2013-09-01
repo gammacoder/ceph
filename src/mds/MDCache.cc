@@ -9432,11 +9432,15 @@ void MDCache::_purge_stray_purged(CDentry *dn, int r)
   CInode *in = dn->get_projected_linkage()->get_inode();
   dout(10) << "_purge_stray_purged " << *dn << " " << *in << dendl;
 
-  if (in->get_num_ref() == (int)in->is_dirty() &&
+  if (in->get_num_ref() == (int)in->is_dirty() + (int)in->is_dirty_parent() &&
       dn->get_num_ref() == (int)dn->is_dirty() + !!in->get_num_ref() + 1/*PIN_PURGING*/) {
     // kill dentry.
     version_t pdv = dn->pre_dirty();
     dn->push_projected_linkage(); // NULL
+
+    // don't update backtrace for the inode
+    if (in->is_dirty_parent())
+      in->clear_dirty_parent();
 
     EUpdate *le = new EUpdate(mds->mdlog, "purge_stray");
     mds->mdlog->start_entry(le);
@@ -9497,8 +9501,6 @@ void MDCache::_purge_stray_logged(CDentry *dn, version_t pdv, LogSegment *ls)
   // drop inode
   if (in->is_dirty())
     in->mark_clean();
-  if (in->is_dirty_parent())
-    in->clear_dirty_parent();
 
   remove_inode(in);
 
