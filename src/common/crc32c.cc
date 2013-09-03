@@ -8,6 +8,7 @@
 #include "common/sctp_crc32.h"
 #include "common/crc32c_intel_baseline.h"
 #include "common/crc32c_intel_fast.h"
+#include "common/crc32c_neon.h"
 
 /*
  * choose best implementation based on the CPU architecture.
