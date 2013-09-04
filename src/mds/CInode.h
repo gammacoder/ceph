@@ -812,6 +812,7 @@ public:
   }
   void first_get();
   void last_put();
+  void stray_put();
 
 
   // -- hierarchy stuff --

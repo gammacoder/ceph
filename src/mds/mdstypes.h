@@ -1133,8 +1133,9 @@ class MDSCacheObject {
   // -- state --
   const static int STATE_AUTH      = (1<<30);
   const static int STATE_DIRTY     = (1<<29);
-  const static int STATE_REJOINING = (1<<28);  // replica has not joined w/ primary copy
-  const static int STATE_REJOINUNDEF = (1<<27);  // contents undefined.
+  const static int STATE_STRAY     = (1<<28);
+  const static int STATE_REJOINING = (1<<27);  // replica has not joined w/ primary copy
+  const static int STATE_REJOINUNDEF = (1<<26);  // contents undefined.
 
 
   // -- wait --
@@ -1214,6 +1215,7 @@ protected:
   //multiset<int>& get_ref_set() { return ref_set; }
 
   virtual void last_put() {}
+  virtual void stray_put() {}
   virtual void bad_put(int by) {
 #ifdef MDS_REF_SET
     assert(ref_map[by] > 0);
@@ -1235,6 +1237,8 @@ protected:
 #endif
       if (ref == 0)
 	last_put();
+      if (state_test(STATE_STRAY))
+	stray_put();
     }
   }
 

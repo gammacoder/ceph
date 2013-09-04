@@ -255,6 +255,7 @@ public:
   void last_put() {
     lru_unpin();
   }
+  void stray_put();
 
   // auth pins
   bool can_auth_pin();
