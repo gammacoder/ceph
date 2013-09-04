@@ -19,6 +19,9 @@
 
 #include <arm_neon.h>
 #include "include/crc32c.h"
+#include "common/crc32c_intel_baseline.h"
+
+#define crc32c_fallback ceph_crc32c_intel_baseline
 
 /*
  * Functions to reduce the size of the input buffer (fold) on ARM
@@ -70,7 +73,7 @@ static inline uint64x1_t crc32c_neon_proc_part(poly8x8_t lhs, poly8x8_t rhs1,
 	return lf4;
 }
 
-static uint32_t ceph_crc32c_neon(uint32_t crc, const uint8_t *buf, size_t length)
+uint32_t ceph_crc32c_neon(uint32_t crc, const uint8_t *buf, size_t length)
 {
 	poly8x8_t xor_constant, lhs1, lhs2, lhs3, lhs4, rhs1, rhs2, rhs3, rhs4;
 	poly8x16_t lhl1, lhl2;
@@ -79,7 +82,7 @@ static uint32_t ceph_crc32c_neon(uint32_t crc, const uint8_t *buf, size_t length
 	uint32_t loop;
 
 	if (length % 32)
-		return crc32c_sb8(crc, buf, length);
+		return crc32c_fallback(crc, buf, length);
 
 	/*
 	 * because crc32c has an initial crc value of 0xffffffff, we need to
@@ -142,14 +145,14 @@ static uint32_t ceph_crc32c_neon(uint32_t crc, const uint8_t *buf, size_t length
 	vst1q_p8((poly8_t *) &residues[0], vcombine_p8(lhs1, lhs2));
 	vst1q_p8((poly8_t *) &residues[2], vcombine_p8(lhs3, lhs4));
 
-	return ceph_crc32c_le_generic(0, (const uint8_t *)residues, 32);
+	return crc32c_fallback(0, (const uint8_t *)residues, 32);
 }
 
-#else  /* __ARM_NEON__ */
+#else  /* __arm__ */
 
-int ceph_crc32c_neon(uint32_t crc, unsigned char const *data, unsigned length)
+uint32_t ceph_crc32c_neon(uint32_t crc, unsigned char const *data, unsigned length)
 {
 	return 0;
 }
 
-#endif /* __ARM_NEON__ */
+#endif /* __arm__ */
