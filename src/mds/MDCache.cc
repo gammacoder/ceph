@@ -10642,7 +10642,7 @@ void MDCache::handle_dentry_unlink(MDentryUnlink *m)
 	    !in->state_test(CInode::STATE_EXPORTINGCAPS))
 	  migrator->export_caps(in);
 	
-	lru.lru_bottouch(straydn);  // move stray to end of lru
+	touch_dentry_bottom(straydn); // move stray to end of lru
 	straydn = NULL;
       } else {
 	assert(!straydn);
@@ -10652,7 +10652,7 @@ void MDCache::handle_dentry_unlink(MDentryUnlink *m)
       assert(dnl->is_null());
       
       // move to bottom of lru
-      lru.lru_bottouch(dn);
+      touch_dentry_bottom(dn);
     }
   }
 
